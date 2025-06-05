@@ -1,5 +1,5 @@
 
-#include "DirectoryNavigator.h"
+#include "../include/DirectoryNavigator.h"
 #include <dirent.h>
 #include <iostream>
 #include <string>
@@ -38,9 +38,9 @@ void DirectoryNavigator::readDirectory()
 bool DirectoryNavigator::selectFile()
 {
     system("clear"); // コンソールをクリア
-    std::cout << "\n=======================================================\n";
+    std::cout << "\n=======================================================" << std::endl;
     std::cout << "Now Directory: " << currentPath << std::endl;
-    std::cout << "=======================================================\n";
+    std::cout << "=======================================================" << std::endl;
 
     // ディレクトリ内を表示
     for (int i = -1; i < static_cast<int>(fileEntries.size()); i++)

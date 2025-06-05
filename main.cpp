@@ -1,5 +1,6 @@
 ﻿#include <iostream>
-#include "DirectoryNavigator.h"
+#include "include/DirectoryNavigator.h"
+#include "include/QuizManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -21,7 +22,19 @@ int main(int argc, char *argv[])
         };
     }
 
-    std::cout << "Selected file : " << navigator.getCurrentPath() << std::endl;
+    QuizManager quiz;
+    quiz.newNode("a", "b", "input");
+    quiz.newNode("c", "d", "choice.2");
+    quiz.newNode("e", "f", "choice.1");
+    quiz.newNode("g", "h", "choice.0");
+    quiz.deleteNode(1);
+    quiz.display();
+    quiz.deleteNode(3);
+    quiz.display();
+    quiz.deleteNode(2);
+    quiz.display();
+    quiz.deleteNode(1);
+    quiz.display();
 
     return 0;
 }
