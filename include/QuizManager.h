@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Quizzes.h"
 #include <string>
 
@@ -15,13 +17,13 @@ public:
     ~QuizManager();
 
     // 末尾に新規ノードを作成
-    void newNode(std::string question, std::string answer, std::string format);
+    void newNode(const std::string &question, const std::string &answer, const std::string &format);
     // 指定したindexのノードを削除
     void deleteNode(int num);
     // リスト構造体を表示
     void display();
-    // リスト構造体をCSVで保存
-    void saveCSV(std::string filePath);
+    // 先頭ノードを取得
+    quizzes* getHead();
     // formatを判定
-    int determineFormat(std::string format);
+    int determineFormat(const std::string &format);
 };

@@ -55,6 +55,12 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "fstream": "cpp",
+        "codecvt": "cpp",
+        "bitset": "cpp",
+        "cstring": "cpp",
+        "map": "cpp",
+        "regex": "cpp"
     }
 }

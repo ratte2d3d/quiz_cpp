@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -Wall -fPIC -Iinclude
-LDFLAGS = -Llib -lDirNav -lQuiz -Wl,-rpath=./lib
+LDFLAGS = -Llib -lDirNav -lQuiz -lQuizIO -Wl,-rpath=./lib
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -11,7 +11,7 @@ OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 
 .PHONY: all clean
 
-all: $(LIB_DIR)/libDirNav.so $(LIB_DIR)/libQuiz.so main
+all: $(LIB_DIR)/libDirNav.so $(LIB_DIR)/libQuiz.so $(LIB_DIR)/libQuizIO.so main
 
 main: main.o
 	$(CXX) main.o -o main $(LDFLAGS)
@@ -23,6 +23,9 @@ $(LIB_DIR)/libDirNav.so: $(SRC_DIR)/DirectoryNavigator.cpp
 	$(CXX) $(CXXFLAGS) -shared -o $@ $<
 
 $(LIB_DIR)/libQuiz.so: $(SRC_DIR)/QuizManager.cpp
+	$(CXX) $(CXXFLAGS) -shared -o $@ $<
+
+$(LIB_DIR)/libQuizIO.so: $(SRC_DIR)/QuizIO.cpp
 	$(CXX) $(CXXFLAGS) -shared -o $@ $<
 
 clean:

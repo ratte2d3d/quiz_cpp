@@ -10,7 +10,7 @@ QuizManager::QuizManager()
 QuizManager::~QuizManager() {};
 
 // 末尾に新規ノードを作成
-void QuizManager::newNode(std::string question, std::string answer, std::string format)
+void QuizManager::newNode(const std::string &question, const std::string &answer, const std::string &format)
 {
     // 新規ノードquizを作成
     quizzes *quiz = new quizzes();
@@ -54,6 +54,7 @@ void QuizManager::display()
     int i = 1;
 
     // system("clear"); // コンソールをクリア
+    std::cout <<  std::endl;
     std::cout << "---------------------------------------------------------------------------" << std::endl;
     while (ptr)
     {
@@ -64,7 +65,11 @@ void QuizManager::display()
     std::cout << "---------------------------------------------------------------------------" << std::endl;
 };
 
-// リスト構造体をCSVで保存
-void QuizManager::saveCSV(std::string filePath) {};
+// 先頭ノードを取得
+quizzes* QuizManager::getHead()
+{
+    return root->next;
+};
+
 // formatを判定
-int QuizManager::determineFormat(std::string format) { return 0; };
+int QuizManager::determineFormat(const std::string &format) { return 0; };
