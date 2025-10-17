@@ -63,7 +63,7 @@ bool QuizIO::loadCSV(const std::string &csvPath, QuizManager &quiz)
             std::cout << "Invalid header: " << header << std::endl;
             return false; // 不正なヘッダー
         }
-         idx ++;   
+         ++idx;   
     }
     
     // データ行を読み込み
@@ -93,7 +93,7 @@ bool QuizIO::loadCSV(const std::string &csvPath, QuizManager &quiz)
                 std::cout << "Invalid column index: " << idx << std::endl;
                 return false;
             }
-            idx ++;   
+            ++idx;   
         }   
         // ノード作成
         quiz.newNode(question, answer, format);

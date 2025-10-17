@@ -25,15 +25,18 @@ int main(int argc, char *argv[])
 
     QuizManager quiz;
     QuizIO quizIO;
+
     if (quizIO.loadCSV(navigator.getCurrentPath(), quiz)){
+
         quiz.display();
+
+        while (quiz.startQuiz()){
+            quizIO.saveCSV(navigator.getCurrentPath(), quiz);
+            quiz.display();
+        }
+        
         quizIO.saveCSV(navigator.getCurrentPath(), quiz);
     }
-    // quiz.newNode("a", "b", "input");
-    // quiz.newNode("c", "d", "choice.2");
-    // quiz.newNode("e", "f", "choice.1");
-    // quiz.newNode("g", "h", "choice.0");
-    // quiz.deleteNode(1);
 
     return 0;
 }

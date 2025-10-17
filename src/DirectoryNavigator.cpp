@@ -43,7 +43,7 @@ bool DirectoryNavigator::selectFile()
     std::cout << "=======================================================" << std::endl;
 
     // ディレクトリ内を表示
-    for (int i = -1; i < static_cast<int>(fileEntries.size()); i++)
+    for (int i = -1; i < static_cast<int>(fileEntries.size()); ++i)
     {
         if (i == -1)
             std::cout << i + 1 << ": Back(..)" << std::endl;
@@ -52,9 +52,11 @@ bool DirectoryNavigator::selectFile()
     }
 
     // ファイル番号を入力
-    int fileNum = 0;
+    std::string input;
+    int fileNum;
     std::cout << "Please input number to open >> ";
-    std::cin >> fileNum;
+    std::getline(std::cin, input);
+    fileNum = std::stoi(input);
     fileNum--; // 0から始まるインデックスに変換
 
     // 入力値のチェック
