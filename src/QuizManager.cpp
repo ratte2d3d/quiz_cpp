@@ -82,11 +82,6 @@ bool QuizManager::startQuiz()
 
     // 問題数分ループ
     for (int i = 1; i <= quizzesNum; ++i) {
-        // 問題がもうない場合
-        if (!ptr) {
-            std::cout << "Congratulations!" << std::endl;
-            return false;
-        }
 
         // 問題の表示と回答の入力
         std::cout << "--------------------------------------------------" << std::endl;
@@ -142,7 +137,7 @@ bool QuizManager::startQuiz()
             input = fut.get();
             destroyWindow(windowName);
         }
-        
+
         // 回答の判定
         if (ptr->answer == input) {
             std::cout << "Correct!" << std::endl;
@@ -154,6 +149,13 @@ bool QuizManager::startQuiz()
             std::cout << "Wrong. correct: " << ptr->answer << std::endl;
             this->newNode(ptr->question, ptr->answer, ptr->format); // 間違えた問題をリストの末尾に追加
             ptr = ptr->next; // ポインタを次の問題に進める
+        }
+
+        // 問題がもうない場合
+        if (!ptr) {
+            std::cout << "==================================================" << std::endl;
+            std::cout << "Congratulations!" << std::endl;
+            return false;
         }
     }
     // 結果表示
