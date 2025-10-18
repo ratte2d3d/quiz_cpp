@@ -142,7 +142,7 @@ bool QuizManager::startQuiz()
             input = fut.get();
             destroyWindow(windowName);
         }
-
+        
         // 回答の判定
         if (ptr->answer == input) {
             std::cout << "Correct!" << std::endl;
