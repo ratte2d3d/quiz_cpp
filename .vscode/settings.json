@@ -61,6 +61,13 @@
         "bitset": "cpp",
         "cstring": "cpp",
         "map": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "complex": "cpp",
+        "condition_variable": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "mutex": "cpp",
+        "cinttypes": "cpp",
+        "future": "cpp"
     }
 }

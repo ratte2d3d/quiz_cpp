@@ -1,6 +1,10 @@
 #include "../include/QuizManager.h"
 #include <string>
 #include <iostream>
+#include <opencv2/opencv.hpp>
+#include <future>
+#include <chrono>
+using namespace cv;
 
 QuizManager::QuizManager()
 {
@@ -73,7 +77,6 @@ bool QuizManager::startQuiz()
     quizzesNum = std::stoi(input);
 
     int correct = 0;
-    std::string userInput;
     quizzes *ptr = root->next;
     system("clear"); // コンソールをクリア
 
@@ -84,17 +87,64 @@ bool QuizManager::startQuiz()
             std::cout << "Congratulations!" << std::endl;
             return false;
         }
+
         // 問題の表示と回答の入力
         std::cout << "--------------------------------------------------" << std::endl;
-        std::cout << "問題 " << i << ": " << ptr->question << std::endl;
-        std::cout << "回答: ";
-        if (!std::getline(std::cin, userInput)) {
-            std::cout << "Input could not be read. Start over." << std::endl;
-            return true;
+        // テキスト形式の問題
+        if (ptr->format == "text"){
+            std::cout << "Question " << i << ": " << ptr->question << std::endl;
+            std::cout << "Answer: ";
+            if (!std::getline(std::cin, input)) {
+                std::cout << "Input could not be read. Start over." << std::endl;
+                return true;
+            }
+        }
+
+        // 画像形式の問題
+        if (ptr->format == "image") {
+            std::cout << "Question " << i << ": [Image Question]" << std::endl;
+            const std::string windowName = "QuestionImage";
+            // 画像を読み込み
+            Mat img = imread(ptr->question);
+            if (img.empty()) {
+                std::cout << "Could not open or find the image: " << ptr->question << std::endl;
+                return false;
+            }
+            // 表示サイズと位置の調整
+            const int maxDisplayW = 800;
+            const int maxDisplayH = 600;
+            double scale = std::min(1.0, std::min((double)maxDisplayW / img.cols, (double)maxDisplayH / img.rows));
+            Mat dispImg;
+            if (scale < 1.0) {
+                // 縮小して表示
+                cv::resize(img, dispImg, cv::Size(), scale, scale, cv::INTER_AREA);
+            } else {
+                dispImg = img;
+            }
+            // ウィンドウを作成してサイズ・位置を指定してから表示
+            namedWindow(windowName, WINDOW_NORMAL);
+            // ウィンドウサイズを表示画像に合わせる
+            resizeWindow(windowName, dispImg.cols, dispImg.rows);
+            // ウィンドウの表示位置（左上からのオフセット）
+            const int windowPosX = 100;
+            const int windowPosY = 50;
+            moveWindow(windowName, windowPosX, windowPosY);
+            imshow(windowName, dispImg);
+            // 非同期で標準入力を読み取る
+            std::cout << "Answer: ";
+            auto fut = std::async(std::launch::async, [](){ std::string s; std::getline(std::cin, s); return s; });
+            // ポーリングしながらウィンドウイベントを処理
+            while (fut.wait_for(std::chrono::milliseconds(30)) != std::future_status::ready) {
+                // これでウィンドウの描画とイベント処理を行う
+                int key = waitKey(30);
+                (void)key;
+            }
+            input = fut.get();
+            destroyWindow(windowName);
         }
 
         // 回答の判定
-        if (ptr->answer == userInput) {
+        if (ptr->answer == input) {
             std::cout << "Correct!" << std::endl;
             ++correct;
             quizzes *temp = ptr;

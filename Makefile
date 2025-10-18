@@ -1,6 +1,11 @@
 CXX = g++
-CXXFLAGS = -Wall -fPIC -Iinclude
-LDFLAGS = -Llib -lDirNav -lQuiz -lQuizIO -Wl,-rpath=./lib
+
+# OpenCV flags (pkg-config を優先、見つからなければフォールバック)
+OPENCV_CFLAGS := $(shell pkg-config --cflags opencv4 2>/dev/null || pkg-config --cflags opencv 2>/dev/null || echo -I/usr/include/opencv4)
+OPENCV_LIBS   := $(shell pkg-config --libs opencv4 2>/dev/null || pkg-config --libs opencv 2>/dev/null || echo -lopencv_core -lopencv_imgcodecs -lopencv_highgui)
+
+CXXFLAGS = -Wall -fPIC -Iinclude $(OPENCV_CFLAGS)
+LDFLAGS = -Llib -lDirNav -lQuiz -lQuizIO -Wl,-rpath=./lib $(OPENCV_LIBS)
 
 SRC_DIR = src
 OBJ_DIR = obj

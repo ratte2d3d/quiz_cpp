@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
             break;
         };
     }
-
+    
     QuizManager quiz;
     QuizIO quizIO;
 

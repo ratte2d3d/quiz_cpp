@@ -79,7 +79,7 @@ bool QuizIO::loadCSV(const std::string &csvPath, QuizManager &quiz)
             // 改行コードや空白を削除
             size_t end = column.find_last_not_of(" \t\r\n");
             if (end != std::string::npos) {
-                header = header.substr(0, end + 1);
+                column = column.substr(0, end + 1);
             }
             // 各列を対応する変数に格納
             if (idx == qIdx){
@@ -94,7 +94,8 @@ bool QuizIO::loadCSV(const std::string &csvPath, QuizManager &quiz)
                 return false;
             }
             ++idx;   
-        }   
+        }
+
         // ノード作成
         quiz.newNode(question, answer, format);
     }
@@ -109,19 +110,19 @@ void QuizIO::saveCSV(const std::string &savePath, QuizManager &quiz)
     // 現在の日付を取得
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
-    std::stringstream datetime;
-    datetime << std::put_time(std::localtime(&time), "%Y%m%d-%H%M%S");
+    std::stringstream date;
+    date << std::put_time(std::localtime(&time), "%Y%m%d");
 
-    // 日時部分を削除
+    // 日付部分を削除
     std::filesystem::path p(savePath);
     std::string fileName = p.stem().string();
-    std::regex re(R"(_\d{8}-\d{6})"); // 日時の正規表現
+    std::regex re(R"(_\d{8})"); // 日付の正規表現
     std::smatch match;
     if (std::regex_search(fileName, match, re)) {
         fileName = match.prefix().str();
     }
-    // 保存パスの生成 ({quizName}_{日時}.csv)
-    auto saveFilePath = p.parent_path() / (fileName + "_" + datetime.str() + ".csv");
+    // 保存パスの生成 ({quizName}_{日付}.csv)
+    auto saveFilePath = p.parent_path() / (fileName + "_" + date.str() + ".csv");
 
     // ファイルを開く
     std::ofstream file(saveFilePath);
